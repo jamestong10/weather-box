@@ -1,0 +1,31 @@
+.cover-image {
+  width: 100%;
+}
+
+.cover {
+  padding: 0;
+}
+
+.overlay-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
+  color: #fff;
+}
+
+.today {
+  background-color: #4212d1;
+}
+
+.card-footer-bg {
+  color: #fff;
+  background-color: #1a1a1a;
+}
+
+.city {
+  color: #1a1a1a;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.7);
+}
