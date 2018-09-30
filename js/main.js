@@ -3,19 +3,22 @@ function update_city_name(city) {
 }
 
 function append_weather_today(today) {
-  document.querySelector("#weather-today").innerHTML = `<div class="col-12">
-                <div class="font-size-30">${today.day}</div>
+  document.querySelector("#weather-today").innerHTML = today.map(f => {
+    return `<div class="col-12">
+              <div class="font-size-30">${f.day}</div>
                 <div class="vertical-align">
-                  <i class="vertical-align-middle wi ${weather_icon[today.code][0]} font-size-20 mt-10"></i>
+                  <i class="vertical-align-middle wi ${weather_icon[f.code][0]} font-size-20 mt-10"></i>
                 </div>
               </div>
               <div class="col-12 mt-10">
-                <span class="font-size-20">${today.high}°</span>
-                <span class="font-size-10">C</span>
-                <span class="font-size-10 blue-grey-700">/</span> 
-                <span class="font-size-20">${today.low}°</span>
-                <span class="font-size-10">C</span>
-              </div>`;
+              <span class="font-size-20">${f.high}°</span>
+              <span class="font-size-10">C</span>
+              <span class="font-size-10 blue-grey-700">/</span> 
+              <span class="font-size-20">${f.low}°</span>
+              <span class="font-size-10">C</span>
+            </div>`;
+  }).join("");
+
 }
 
 function append_weather_week(forecast) {
@@ -39,19 +42,27 @@ function append_weather_week(forecast) {
   }).join("");
 }
 
-function update_weather(city) {
-  const query = escape("select * from weather.forecast where woeid ='" + city.woeid + "' and u='c'");
+function fetch_forecast(woeid) {
+  const query = escape("select * from weather.forecast where woeid ='" + woeid + "' and u='c'");
   const endpoint = "https://query.yahooapis.com/v1/public/yql?q=" + query + "&format=json";
   fetch(endpoint)
     .then(blob => blob.json())
     .then(data => {
-      let forecast = data.query.results.channel.item.forecast;
-      today = forecast.shift();
-      week = forecast.slice(0, 6);
-      update_city_name(city);
-      append_weather_today(today);
-      append_weather_week(week);
+      let result = data.query.results.channel.item.forecast;
+      forecast.length = 0;
+      forecast.push(...result);
     });
+}
+
+const forecast = [];
+
+function update_weather(city) {
+  fetch_forecast(city.woeid);
+  setTimeout(() => {
+    update_city_name(city);
+    append_weather_today(forecast.slice(0, 1));
+    append_weather_week(forecast.slice(1, 7));
+  }, 500);
 }
 
 function findMatches(input, cities) {
