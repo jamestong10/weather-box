@@ -7,7 +7,7 @@ function append_weather_today(today) {
     return `<div class="col-12">
               <div class="font-size-30">${f.day}</div>
                 <div class="vertical-align">
-                  <i class="vertical-align-middle wi ${weather_icon[f.code][0]} font-size-20 mt-10"></i>
+                  <i class="vertical-align-middle wi wi-yahoo-${f.code} font-size-20 mt-10"></i>
                 </div>
               </div>
               <div class="col-12 mt-10">
@@ -27,7 +27,7 @@ function append_weather_week(forecast) {
               <div class="weather-day vertical-align">
                 <div class="vertical-align-middle font-size-16">
                   <div class="mb-10">${f.day}</div>
-                    <i class="wi ${weather_icon[f.code][0]} font-size-24 mb-10"></i>
+                    <i class="wi wi-yahoo-${f.code} font-size-24 mb-10"></i>
                     <div>
                       <span class="font-size-14">${f.high}°</span>
                       <span class="font-size-8">C</span>
